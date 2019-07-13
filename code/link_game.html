@@ -2,13 +2,13 @@
 <meta charset="utf-8">
 <style>
 
-circle {
-  stroke-width: 1.5px;
-}
+    circle {
+      stroke-width: 1.5px;
+    }
 
-line {
-  stroke: #999;
-}
+    line {
+      stroke: #999;
+    }
 
 </style>
 <body>
@@ -28,7 +28,6 @@ line {
         "obj_mage_book": ["Livre de sorts", ],
     }
 
-
     // C'est un peu dégueux, parce qu'on se retrouve avec les données en triple,
     // dans dict_nodes, dict_nodes_processed et init_nodes. Eh bien voilà, pas mieux.
     dict_nodes_processed = {}
@@ -36,8 +35,6 @@ line {
     init_nodes = []
 
     for (var key in dict_nodes) {
-        console.log(key)
-        console.log(dict_nodes[key])
         var name = dict_nodes[key][0]
         new_node = { "node_id": key, "name": name }
         init_nodes.push(new_node)
@@ -50,42 +47,33 @@ line {
         ["perso_war", "obj_mage_scroll", false],
         ["perso_mag", "obj_mage_book", false],
         ["perso_war", "obj_mage_book", false],
-
     ]
-
-    console.log(dict_nodes_processed)
 
     first_selection = null;
     second_selection = null;
 
     function init_force_layout() {
 
-
         graph_init = {
-          "nodes": init_nodes,
-          "links": [
-            //{"source": dict_nodes_processed["perso_war"], "target": dict_nodes_processed["obj_longsword"], "value": 4},
-
-          ]
+            "nodes": init_nodes,
+            "links": [],
         }
 
-          graph = graph_init;
+        graph = graph_init;
 
-          // C'est comme ça qu'on parcourt un array en javascript ? Eh bien c'est moche.
-          for (var answer of answers) {
+        // http://www.sebarmeli.com/blog/2010/12/06/best-way-to-loop-through-an-array-in-javascript/
+        // https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript#3010848
+        // C'est une blague ? Il faut lire deux articles et envisager 6 façons de faire pour boucler sur un tableau ?
+        // C'est quoi ce langage ?
+        for (var answer of answers) {
             if (answer[2]) {
                 graph["links"].push({source: dict_nodes_processed[answer[0]], target: dict_nodes_processed[answer[1]], value: 1});
             }
-          }
-
-          //if (one_more_link == true) {
-          //  graph["links"].push({source: dict_nodes_processed["perso_mag"], target: dict_nodes_processed["obj_longsword"], value: 1});
-          //}
-
+        }
 
         width = 960;
-            height = 500;
-            radius = 6;
+        height = 500;
+        radius = 6;
 
         var fill = d3.scale.category20();
 
@@ -99,108 +87,81 @@ line {
             .attr("width", width)
             .attr("height", height);
 
-          link = svg.selectAll("line")
-              .data(graph.links)
+        link = svg.selectAll("line")
+            .data(graph.links)
             .enter().append("line");
 
-          node = svg.selectAll("circle")
-              .data(graph.nodes)
+        node = svg.selectAll("circle")
+            .data(graph.nodes)
             .enter().append("g")
-              .attr("name", function(d) { return d.name; })
-              .attr("node_id", function(d) { return d.node_id; })
-              .call(force.drag);
+            .attr("name", function(d) { return d.name; })
+            .attr("node_id", function(d) { return d.node_id; })
+            .call(force.drag);
 
-          node.append("image")
-              .attr("xlink:href", "silver_key.png")
-              .attr("x", -8)
-              .attr("y", -8)
-              .attr("width", 16)
-              .attr("height", 16);
+        node.append("image")
+            .attr("xlink:href", "silver_key.png")
+            .attr("x", -8)
+            .attr("y", -8)
+            .attr("width", 16)
+            .attr("height", 16);
 
-          node.append("text")
-              .attr("dx", 12)
-              .attr("dy", ".35em")
-              //.text("blorp");
-              .text(function(d) { return d.name; });
+        node.append("text")
+            .attr("dx", 12)
+            .attr("dy", ".35em")
+            .text(function(d) { return d.name; });
 
-          force
-              .nodes(graph.nodes)
-              .links(graph.links)
-              .on("tick", tick)
-              .start();
-
- //vis.selectAll("circle.node").on("click", function(){
-node.on("click", function(){
-    //console.log("click sur un node");
-    //console.log(d3.select(this).attr('r'));
-    console.log(d3.select(this).attr('name'));
-
-    if (first_selection == null) {
-        first_selection = d3.select(this).attr('node_id')
-        console.log("first selection")
-        console.log(first_selection)
-    }
-    else {
-        second_selection = d3.select(this).attr('node_id')
-        console.log("first selection")
-        console.log(first_selection)
-        console.log("second selection")
-        console.log(second_selection)
+        force.nodes(graph.nodes)
+            .links(graph.links)
+            .on("tick", tick)
+            .start();
 
 
-        var must_refresh = false
+        node.on("click", function() {
 
-          for (var answer of answers) {
-            console.log("test loop")
-            console.log(answer[0])
-            console.log(first_selection)
-            console.log(answer[0] == first_selection)
-            if ((answer[2] == false) && (
-                ((answer[0] == first_selection) && (answer[1] == second_selection)) || ((answer[1] == first_selection) && (answer[0] == second_selection))
-                )) {
-                answer[2] = true;
-            must_refresh = true;
-}
-          }
+            if (first_selection == null) {
+                first_selection = d3.select(this).attr('node_id')
+                console.log("first selection " + first_selection)
+            }
+            else {
+                second_selection = d3.select(this).attr('node_id')
+                console.log("first selection " + first_selection)
+                console.log("second selection " + second_selection)
 
-if (must_refresh) {
-d3.select("svg").remove()
-// Donc là, on repète tout le graphe pour le reconstruire de zéro. C'est méga-bourrin, mais apparamment ça marche.
-init_force_layout();
-}
-        first_selection = null
+                var must_refresh = false
 
-    }
+                for (var answer of answers) {
+                    if ((answer[2] == false) && (
+                        ((answer[0] == first_selection) && (answer[1] == second_selection)) || ((answer[1] == first_selection) && (answer[0] == second_selection))
+                    )) {
+                        answer[2] = true;
+                        must_refresh = true;
+                    }
+                }
 
+                if (must_refresh) {
+                    d3.select("svg").remove()
+                    // Donc là, on repète tout le graphe pour le reconstruire de zéro. C'est méga-bourrin, mais apparamment ça marche.
+                    init_force_layout();
+                }
 
-
-
-
-
+                first_selection = null
+            }
         });
 
-
     }
 
+    function tick() {
+        node.attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
+            .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
 
+        link.attr("x1", function(d) { return d.source.x; })
+            .attr("y1", function(d) { return d.source.y; })
+            .attr("x2", function(d) { return d.target.x; })
+            .attr("y2", function(d) { return d.target.y; });
 
-  function tick() {
-    node.attr("cx", function(d) { return d.x = Math.max(radius, Math.min(width - radius, d.x)); })
-        .attr("cy", function(d) { return d.y = Math.max(radius, Math.min(height - radius, d.y)); });
+        node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
+    }
 
-    link.attr("x1", function(d) { return d.source.x; })
-        .attr("y1", function(d) { return d.source.y; })
-        .attr("x2", function(d) { return d.target.x; })
-        .attr("y2", function(d) { return d.target.y; });
-
-node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")"; });
-
-
-  }
-
-
-init_force_layout();
-//d3.select("svg").remove()
-//init_force_layout(true);
+    init_force_layout();
 
 </script>

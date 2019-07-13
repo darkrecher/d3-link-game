@@ -10,23 +10,61 @@
       stroke: #999;
     }
 
+.button {
+  background-color: #4CAF50;
+  border: none;
+  color: white;
+  padding-top: 16px;
+  padding-bottom: 16px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 2em;
+  /*margin: 4px 2px;*/
+  -webkit-transition-duration: 0.4s; /* Safari */
+  transition-duration: 0.4s;
+  cursor: pointer;
+  background-color: white;
+  color: black;
+  border: 2px solid #4CAF50;
+
+  width: 100%;
+}
+
+.button:hover {
+  background-color: #4CAF50;
+  color: white;
+}
+
+body {
+    font-family: arial;
+}
+
 </style>
 <body>
 
+<!-- https://stackoverflow.com/questions/2637696/how-to-place-div-side-by-side -->
+<!-- TODO : Mettre les styles dans la balise style au début du fichier. Fuck le CSS. -->
 <div style="width: 100%; display: table;">
     <div style="
-  border: 3px solid red;
   padding: 10px; overflow: ; display: table-row;">
         <div class="svg-container" style="
 display: table-cell;
 width: 75%;
-  border: 3px solid blue;
+  /* border: 3px solid blue; */
   padding: 10px;">
 
         </div>
         <div style="
-  border: 3px solid #73AD21;
-  padding: 10px; display: table-cell;">
+  /* border: 3px solid #73AD21; */
+  padding: 10px; display: table-cell; vertical-align: top; background-color: lightgray;">
+
+            <div class="descrip-person" style="padding: 0.5em; font-size: 1.2em;"></div>
+            <div style="  margin: auto;
+  width: 50%; ">
+                <div class="button associate">Associer</div>
+            </div>
+            <div class="descrip-itm" style="padding: 0.5em; font-size: 1.2em;"></div>
 
         </div>
     </div>
@@ -35,17 +73,25 @@ width: 75%;
 <script src="d3.js"></script>
 <script>
 
+    const PERSON = 0;
+    const ITEM = 1;
+
     // inspirations :
     // Labeled Force Layout https://bl.ocks.org/mbostock/950642
     // Bounded Force Layout https://bl.ocks.org/mbostock/1129492
     // Modifying a Force Layout https://bl.ocks.org/mbostock/1095795
 
     dict_nodes = {
-        "perso_war": ["Guerrier", ],
-        "perso_mag": ["Mage", ],
-        "obj_longsword": ["Épée longue", ],
-        "obj_mage_scroll": ["Sorts de mage", ],
-        "obj_mage_book": ["Livre de sorts", ],
+        "person_war": ["Guerrier", PERSON ],
+        "person_mage": ["Mage", PERSON ],
+        "person_thief": ["Voleur", PERSON ],
+        "person_priest": ["Prêtre", PERSON ],
+        "person_pala": ["Paladin", PERSON ],
+        "obj_longsword": ["Épée longue", ITEM ],
+        "obj_robes": ["Robe", ITEM ],
+        "obj_spell_book": ["Livre de sorts", ITEM ],
+        "obj_holy_symbol": ["Symbole sacré", ITEM ],
+        "obj_pala_grail": ["Symbole sacré (paladin)", ITEM ],
     }
 
     // C'est un peu dégueux, parce qu'on se retrouve avec les données en triple,
@@ -62,15 +108,17 @@ width: 75%;
     }
 
     answers = [
-        ["perso_war", "obj_longsword", false],
-        ["perso_mag", "obj_mage_scroll", false],
-        ["perso_war", "obj_mage_scroll", false],
-        ["perso_mag", "obj_mage_book", false],
-        ["perso_war", "obj_mage_book", false],
+        ["person_war", "obj_longsword", false],
+        ["person_mage", "obj_robes", false],
+        ["person_war", "obj_robes", false],
+        ["person_thief", "obj_robes", false],
+        ["person_mage", "obj_spell_book", false],
+        ["person_priest", "obj_holy_symbol", false],
+        ["person_pala", "obj_pala_grail", false],
     ]
 
-    first_selection = null;
-    second_selection = null;
+    selected_person = null;
+    selected_item = null;
 
     function init_force_layout() {
 
@@ -100,13 +148,10 @@ width: 75%;
             .charge(-240)
             .linkDistance(50)
             .size([width, height])
-            //.size(["100%", height])
 
+        // https://stackoverflow.com/questions/11942500/how-to-make-force-layout-graph-in-d3-js-responsive-to-screen-browser-size
         var svg = d3.select(".svg-container").append("svg")
-            //.attr("width", width)
-            //.attr("height", height)
-            .attr("viewBox", "0 0 " + width + " " + height )
-            .attr("style", "width: 100%; background-color: lightgray;")
+            .attr("viewBox", "0 0 " + width + " " + height)
 
         link = svg.selectAll("line")
             .data(graph.links)
@@ -139,34 +184,23 @@ width: 75%;
 
         node.on("click", function() {
 
-            if (first_selection == null) {
-                first_selection = d3.select(this).attr('node_id')
-                console.log("first selection " + first_selection)
+            var selected_node_id = d3.select(this).attr('node_id')
+            var selected_node_infos = dict_nodes[selected_node_id]
+
+            if (selected_node_infos == null) {
+                return
             }
-            else {
-                second_selection = d3.select(this).attr('node_id')
-                console.log("first selection " + first_selection)
-                console.log("second selection " + second_selection)
-
-                var must_refresh = false
-
-                for (var answer of answers) {
-                    if ((answer[2] == false) && (
-                        ((answer[0] == first_selection) && (answer[1] == second_selection)) || ((answer[1] == first_selection) && (answer[0] == second_selection))
-                    )) {
-                        answer[2] = true
-                        must_refresh = true
-                    }
-                }
-
-                if (must_refresh) {
-                    d3.select("svg").remove()
-                    // Donc là, on repète tout le graphe pour le reconstruire de zéro. C'est méga-bourrin, mais apparamment ça marche.
-                    init_force_layout()
-                }
-
-                first_selection = null
+            if (selected_node_infos[1] == PERSON) {
+                // WLA TODO : html entities
+                d3.select(".descrip-person").html("Personne sélectionnée : " + selected_node_infos[0] + "<br><br>(Bla bla description personne).")
+                selected_person = selected_node_id
             }
+            else if (selected_node_infos[1] == ITEM) {
+                // WLA TODO : html entities
+                d3.select(".descrip-itm").html("Item sélectionné : " + selected_node_infos[0] + "<br><br>(Bla bla description item).")
+                selected_item = selected_node_id
+            }
+
         })
 
     }
@@ -182,6 +216,35 @@ width: 75%;
 
         node.attr("transform", function(d) { return "translate(" + d.x + "," + d.y + ")" })
     }
+
+    d3.select(".associate").on("click", function () {
+
+        var must_refresh = false
+        if (selected_person == null) {
+            return
+        }
+        if (selected_item == null) {
+            return
+        }
+
+        for (var answer of answers) {
+            // Désolé pour la condition dégueux à rallonge.
+            if ((answer[2] == false) && (
+                ((answer[0] == selected_person) && (answer[1] == selected_item)) || ((answer[1] == selected_person) && (answer[0] == selected_item))
+            )) {
+                answer[2] = true
+                must_refresh = true
+            }
+        }
+
+        if (must_refresh) {
+            d3.select("svg").remove()
+            // Donc là, on repète tout le graphe pour le reconstruire de zéro. C'est méga-bourrin, mais apparamment ça marche.
+            init_force_layout()
+        }
+
+
+    })
 
     init_force_layout()
 

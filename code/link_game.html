@@ -15,38 +15,58 @@ line {
 <script src="d3.js"></script>
 <script>
 
+    // inspirations :
+    // Labeled Force Layout https://bl.ocks.org/mbostock/950642
+    // Bounded Force Layout https://bl.ocks.org/mbostock/1129492
+    // Modifying a Force Layout https://bl.ocks.org/mbostock/1095795
 
-        // inspirations :
-        // Labeled Force Layout https://bl.ocks.org/mbostock/950642
-        // Bounded Force Layout https://bl.ocks.org/mbostock/1129492
-        // Modifying a Force Layout https://bl.ocks.org/mbostock/1095795
+    dict_nodes = {
+        "perso_war": ["Guerrier", ],
+        "perso_mag": ["Mage", ],
+        "obj_longsword": ["Épée longue", ],
+        "obj_mage_scroll": ["Sorts de mage", ],
+        "obj_mage_book": ["Livre de sorts", ],
+    }
 
+    // C'est un peu dégueux, parce qu'on se retrouve avec les données en triple,
+    // dans dict_nodes, dict_nodes_processed et init_nodes. Eh bien voilà, pas mieux.
+    dict_nodes_processed = {}
 
-            perso_war = { "id": "perso_war", "name": "Guerrier", "group": 1};
-            perso_mag = { "id": "perso_mag", "name": "Mage", "group": 1};
-            obj_longsword = { "id": "obj_longsword", "name": "Épée longue", "group": 1};
-            obj_mage_scroll = { "id": "obj_mage_scroll", "name": "Sorts de mage", "group": 1};
+    init_nodes = []
 
+    for (var key in dict_nodes) {
+        console.log(key)
+        console.log(dict_nodes[key])
+        var name = dict_nodes[key][0]
+        new_node = { "node_id": key, "name": name }
+        init_nodes.push(new_node)
+        dict_nodes_processed[key] = new_node
+    }
+
+    answers = [
+
+    ]
+
+    console.log(dict_nodes_processed)
+
+    first_selection = null;
+    second_selection = null;
 
     function init_force_layout(one_more_link) {
 
 
         graph_init = {
-          "nodes": [
-            perso_war,
-            perso_mag,
-            obj_longsword,
-            obj_mage_scroll,
-          ],
+          "nodes": init_nodes,
           "links": [
-            {"source": perso_war, "target": obj_longsword, "value": 4},
+            {"source": dict_nodes_processed["perso_war"], "target": dict_nodes_processed["obj_longsword"], "value": 4},
+
           ]
         }
 
           graph = graph_init;
 
           if (one_more_link == true) {
-            graph["links"].push({source: perso_mag, target: obj_mage_scroll, value: 1});
+            graph["links"].push({source: dict_nodes_processed["perso_mag"], target: dict_nodes_processed["obj_mage_scroll"], value: 1});
           }
 
 
@@ -74,6 +94,7 @@ line {
               .data(graph.nodes)
             .enter().append("g")
               .attr("name", function(d) { return d.name; })
+              .attr("node_id", function(d) { return d.node_id; })
               .call(force.drag);
 
           node.append("image")
@@ -97,13 +118,29 @@ line {
 
  //vis.selectAll("circle.node").on("click", function(){
 node.on("click", function(){
-    console.log("click sur un node");
-    console.log(d3.select(this).attr('r'));
+    //console.log("click sur un node");
+    //console.log(d3.select(this).attr('r'));
     console.log(d3.select(this).attr('name'));
 
-d3.select("svg").remove()
+//d3.select("svg").remove()
 // Donc là, on repète tout le graphe pour le reconstruire de zéro. C'est méga-bourrin, mais apparamment ça marche.
-init_force_layout(true);
+//init_force_layout(true);
+
+    if (first_selection == null) {
+        first_selection = d3.select(this).attr('node_id')
+        console.log("first selection")
+        console.log(first_selection)
+    }
+    else {
+        second_selection = d3.select(this).attr('node_id')
+        console.log("first selection")
+        console.log(first_selection)
+        console.log("second selection")
+        console.log(second_selection)
+        first_selection = null
+    }
+
+
         });
 
 

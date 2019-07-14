@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html><head>
-<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="utf-8">
+<meta http-equiv="content-type" content="text/html; charset=UTF-8">
+<meta charset="utf-8">
 <style>
 
     circle {
@@ -54,13 +55,34 @@ img {
     image-rendering: crisp-edges;
 }
 
-
 h2 {
     text-align: center;
+    margin-top: 0.2em;
 }
 
 svg {
     background-color: #E0E0E0;
+}
+
+.descrip-person {
+    padding-left: 0.5em;
+    padding-right: 0.5em;
+    font-size: 1.2em;
+}
+
+.descrip-itm {
+    padding: 0.5em;
+    font-size: 1.2em;
+    padding-bottom: 1em;
+}
+
+.button-container {
+    margin: auto;
+    width: 50%;
+}
+
+.itm-details {
+    padding-bottom: 2em;
 }
 
 </style>
@@ -87,9 +109,9 @@ position: relative;
 border: solid black 2px;
 ">
 
-            <div class="descrip-person" style="padding: 0.5em; font-size: 1.2em;">
-                <h2 class="person-title">Marc</h2>
-                <img class="person-img" src="img/person_marc.jpg" style="height: 7em;">
+            <div class="descrip-person" style="display: none;">
+                <h2 class="person-title"></h2>
+                <img class="person-img" src="" style="height: 7em;">
             </div>
             <div style="
 /*
@@ -99,7 +121,7 @@ C'est sûrement pas comme ça qu'il faut le faire, mais je suis pas magicien et 
 
 border: none;
     margin-top: 5%;
-    margin-bottom: 5%;
+
 
 
 
@@ -124,21 +146,31 @@ border: none;
     background-size: 1px auto;
 
           ">
-            <div style="  margin: auto;
-  width: 50%;">
+            <div class="button-container" style="display: none;">
                 <div class="button associate">Associer</div>
             </div>
         </div>
-            <div class="descrip-itm" style="padding: 0.5em; font-size: 1.2em; padding-bottom: 1em;">
-                <h2 class="itm-title">Épée longue</h2>
-                <img class="itm-img" src="img/obj_longsword.png" style="height: 7em;">
-                <p>
-                    bla bla<br>
-                    bla bla<br>
-                    bla bla<br>
-                    bla bla<br>
-                    mon cul c'est du poulet.
-                </p>
+            <div class="descrip-itm" style="display: none;">
+                <h2 class="itm-title"></h2>
+                <img class="itm-img" src="" style="height: 7em;">
+
+                <div class="itm-details obj_longsword">
+                    obj_longsword
+                </div>
+                <div class="itm-details obj_robes">
+                    obj_robes
+                </div>
+                <div class="itm-details obj_spell_book">
+                    obj_spell_book <br>
+                    La maaaaagiiiie !!!
+                </div>
+                <div class="itm-details obj_holy_symbol">
+                    obj_holy_symbol
+                </div>
+                <div class="itm-details obj_pala_grail">
+                    obj_pala_grail
+                </div>
+
             </div>
 
             <div style="position: absolute; bottom: 0; background-color: #80FF90; width: 100%; border-top: solid 2px black;">
@@ -156,8 +188,6 @@ border: none;
 <script src="d3.js"></script>
 <script>
 
-    // BIG TODO : html entities
-
     const PERSON = 0;
     const ITEM = 1;
 
@@ -167,7 +197,6 @@ border: none;
     // Modifying a Force Layout https://bl.ocks.org/mbostock/1095795
 
     dict_nodes = {
-
         "person_fighter": ["Guerrier / guerrière", PERSON, "person_fighter.png"],
         "person_mage": ["Mage", PERSON, "person_mage.png"],
         "person_thief": ["Voleur / Voleuse", PERSON, "person_thief.png"],
@@ -179,7 +208,6 @@ border: none;
         "obj_spell_book": ["Livre de sorts", ITEM, "obj_spell_book.png"],
         "obj_holy_symbol": ["Symbole sacré", ITEM, "obj_holy_symbol.png"],
         "obj_pala_grail": ["Symbole sacré (paladin)", ITEM, "obj_pala_grail.png"],
-
     }
 
     // C'est un peu dégueux, parce qu'on se retrouve avec les données en triple,
@@ -197,6 +225,7 @@ border: none;
     }
 
     answers = [
+
         ["person_fighter", "obj_longsword", false],
         ["person_mage", "obj_robes", false],
         ["person_fighter", "obj_robes", false],
@@ -204,10 +233,13 @@ border: none;
         ["person_mage", "obj_spell_book", false],
         ["person_cleric", "obj_holy_symbol", false],
         ["person_pala", "obj_pala_grail", false],
+
     ]
 
     selected_person = null;
     selected_item = null;
+
+    d3.selectAll(".itm-details").attr("style", "display: none;")
 
     function init_force_layout() {
 
@@ -280,15 +312,22 @@ border: none;
             node_img = selected_node_infos[2]
 
             if (selected_node_infos[1] == PERSON) {
-
-                d3.select(".descrip-person").show()
+                d3.select(".descrip-person").attr("style", "display: block;")
                 d3.select(".person-title").html(node_name)
                 d3.select(".person-img").attr("src", "img/" + node_img)
                 selected_person = selected_node_id
             }
             else if (selected_node_infos[1] == ITEM) {
-                d3.select(".descrip-itm").html("Item sélectionné : " + selected_node_infos[0] + "<br><br>(Bla bla description item).")
+                d3.select(".descrip-itm").attr("style", "display: block;")
+                d3.select(".itm-title").html(node_name)
+                d3.select(".itm-img").attr("src", "img/" + node_img)
                 selected_item = selected_node_id
+                d3.selectAll(".itm-details").attr("style", "display: none;")
+                d3.select("."+selected_node_id).attr("style", "display: block;")
+            }
+
+            if ((selected_item != null) && (selected_person != null)) {
+                d3.select(".button-container").attr("style", "display: block;")
             }
 
         })

@@ -43,6 +43,7 @@ body {
     font-family: arial;
 }
 
+
 image {
     image-rendering: pixelated;
     image-rendering: -moz-crisp-edges;
@@ -85,21 +86,56 @@ svg {
     padding-bottom: 2em;
 }
 
+.fail-message {
+
+    text-align: center;
+    width: 100%;
+    background-color: red;
+    padding: 0.3em;
+    color: white;
+    font-weight: bold;
+    font-size: 1.5em;
+
+    animation: shake 0.5s;
+
+    /* When the animation is finished, start again */
+    animation-iteration-count: 3;
+
+}
+
+
+@keyframes shake {
+  0% { transform: translate(1px, 1px) rotate(0deg); }
+  10% { transform: translate(-1px, -2px) rotate(-1deg); }
+  20% { transform: translate(-3px, 0px) rotate(1deg); }
+  30% { transform: translate(3px, 2px) rotate(0deg); }
+  40% { transform: translate(1px, -1px) rotate(1deg); }
+  50% { transform: translate(-1px, 2px) rotate(-1deg); }
+  60% { transform: translate(-3px, 1px) rotate(0deg); }
+  70% { transform: translate(3px, 1px) rotate(-1deg); }
+  80% { transform: translate(-1px, -1px) rotate(1deg); }
+  90% { transform: translate(1px, 2px) rotate(0deg); }
+  100% { transform: translate(1px, -2px) rotate(-1deg); }
+}
+
 </style>
-</head><body>
+</head>
+<body>
 
 <!-- https://stackoverflow.com/questions/2637696/how-to-place-div-side-by-side -->
 <!-- TODO : Mettre les styles dans la balise style au début du fichier. Fuck le CSS. -->
 <div style="width: 100%; display: table;">
     <div style="
   padding: 10px; overflow: ; display: table-row;">
-        <div class="svg-container" style="
+        <div style="
 display: table-cell;
 width: 75%;
   /* border: 3px solid blue; */
   padding-right: 10px;
   ">
+<div class="svg-container">
 
+</div>
         </div>
         <div style="
   /* border: 3px solid #73AD21;
@@ -150,6 +186,7 @@ border: none;
                 <div class="button associate">Associer</div>
             </div>
         </div>
+
             <div class="descrip-itm" style="display: none;">
                 <h2 class="itm-title"></h2>
                 <img class="itm-img" src="" style="height: 7em;">
@@ -170,7 +207,6 @@ border: none;
                 <div class="itm-details obj_pala_grail">
                     obj_pala_grail
                 </div>
-
             </div>
 
             <div style="position: absolute; bottom: 0; background-color: #80FF90; width: 100%; border-top: solid 2px black;">
@@ -182,6 +218,10 @@ border: none;
 
         </div>
     </div>
+</div>
+
+<div class="fail-message" style="display: none;">
+    Stupide !!
 </div>
 
 
@@ -225,7 +265,6 @@ border: none;
     }
 
     answers = [
-
         ["person_fighter", "obj_longsword", false],
         ["person_mage", "obj_robes", false],
         ["person_fighter", "obj_robes", false],
@@ -233,7 +272,6 @@ border: none;
         ["person_mage", "obj_spell_book", false],
         ["person_cleric", "obj_holy_symbol", false],
         ["person_pala", "obj_pala_grail", false],
-
     ]
 
     selected_person = null;
@@ -350,7 +388,7 @@ border: none;
 
     d3.select(".associate").on("click", function () {
 
-        var must_refresh = false
+
         if (selected_person == null) {
             return
         }
@@ -358,13 +396,19 @@ border: none;
             return
         }
 
+        var show_stupid = true
+        var must_refresh = false
         for (var answer of answers) {
             // Désolé pour la condition dégueux à rallonge.
-            if ((answer[2] == false) && (
-                ((answer[0] == selected_person) && (answer[1] == selected_item)) || ((answer[1] == selected_person) && (answer[0] == selected_item))
-            )) {
-                answer[2] = true
-                must_refresh = true
+            if (((answer[0] == selected_person) && (answer[1] == selected_item)) || ((answer[1] == selected_person) && (answer[0] == selected_item)))
+            {
+                show_stupid = false
+                if (answer[2] == false)
+                { //&& (
+                //((answer[0] == selected_person) && (answer[1] == selected_item)) || ((answer[1] == selected_person) && (answer[0] == selected_item))
+                    answer[2] = true
+                    must_refresh = true
+                }
             }
         }
 
@@ -373,21 +417,21 @@ border: none;
             // Donc là, on repète tout le graphe pour le reconstruire de zéro. C'est méga-bourrin, mais apparamment ça marche.
             init_force_layout()
         }
+        if (show_stupid) {
+            d3.select(".fail-message").attr("style", "display: block;")
+            setTimeout(
+                function(){
+                    d3.select(".fail-message").attr("style", "display: none;")
+                },
+                2000
+            )
+        }
 
 
     })
 
     init_force_layout()
 
-    /*
-    TODO :
-     X images
-     - images et textes à la sélection.
-     X compteur de lien à trouver
-     - message d'insulte quand ça foire.
-     - finaliser le css
-     - ranger le css
-    */
-
 </script>
-</body></html>
+</body>
+</html>

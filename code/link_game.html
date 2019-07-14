@@ -232,23 +232,47 @@ svg {
     const PERSON = 0;
     const ITEM = 1;
 
-    // inspirations :
+    // Inspirations :
     // Labeled Force Layout https://bl.ocks.org/mbostock/950642
     // Bounded Force Layout https://bl.ocks.org/mbostock/1129492
     // Modifying a Force Layout https://bl.ocks.org/mbostock/1095795
 
-    dict_nodes = {
-        "person_fighter": ["Guerrier / guerrière", PERSON, "person_fighter.png"],
-        "person_mage": ["Mage", PERSON, "person_mage.png"],
-        "person_thief": ["Voleur / Voleuse", PERSON, "person_thief.png"],
-        "person_cleric": ["Prêtre / Prêtresse", PERSON, "person_cleric.png"],
-        "person_pala": ["Paladin / Paladine", PERSON, "person_pala.png"],
+    // Sources des images
+    // Les armes et armures de Eye of the Beholder : https://www.vgmaps.com/Atlas/PC/index.htm
+    // Les icônes des classes AD&D : https://www.pinterest.fr/pin/141581982019019754/
+    // Les visages des personnages du jeu : https://twitter.com/dosnostalgic/status/770694586897408000
 
-        "obj_longsword": ["Épée longue", ITEM, "obj_longsword.png"],
-        "obj_robes": ["Robe", ITEM, "obj_robe.png"],
-        "obj_spell_book": ["Livre de sorts", ITEM, "obj_spell_book.png"],
-        "obj_holy_symbol": ["Symbole sacré", ITEM, "obj_holy_symbol.png"],
-        "obj_pala_grail": ["Symbole sacré (paladin)", ITEM, "obj_pala_grail.png"],
+    dict_nodes = {
+        "person_fighter": [ "Guerrier / guerrière", PERSON, "person_fighter.png "],
+        "person_mage": [ "Mage", PERSON, "person_mage.png "],
+        "person_thief": [ "Voleur / Voleuse", PERSON, "person_thief.png "],
+        "person_cleric": [ "Prêtre / Prêtresse", PERSON, "person_cleric.png "],
+        "person_pala": [ "Paladin / Paladine", PERSON, "person_pala.png "],
+        "person_ranger": [ "Rôdeur / Rôdeuse", PERSON, "person_ranger.png "],
+
+        "obj_shortsword": [ "Épée courte", ITEM, "obj_shortsword.png" ],
+        "obj_axe": [ "Hache", ITEM, "obj_axe.png" ],
+        "obj_mace": [ "Masse", ITEM, "obj_mace.png" ],
+        "obj_staff": [ "Bâton", ITEM, "obj_staff.png" ],
+        "obj_flail": [ "Fléau", ITEM, "obj_flail.png" ],
+        "obj_dagger": [ "Dague", ITEM, "obj_dagger.png" ],
+        "obj_dart": [ "Fléchette", ITEM, "obj_dart.png" ],
+        "obj_sling": [ "Lance-pierre", ITEM, "obj_sling.png" ],
+        "obj_bow": [ "Arc", ITEM, "obj_bow.png" ],
+        "obj_spear": [ "Lance", ITEM, "obj_spear.png" ],
+        "obj_shield": [ "Bouclier", ITEM, "obj_shield.png" ],
+        "obj_boots": [ "Bottes", ITEM, "obj_boots.png" ],
+        "obj_leather_armor": [ "Armure de cuir", ITEM, "obj_leather_armor.png" ],
+        "obj_heavy_armor": [ "Armure lourde", ITEM, "obj_heavy_armor.png" ],
+        "obj_bracers": [ "Bracelet de protection", ITEM, "obj_bracers.png" ],
+        "obj_scroll_cleric": [ "Sorts de prêtre", ITEM, "obj_scroll_cleric.png" ],
+        "obj_scroll_mage": [ "Sorts de mage", ITEM, "obj_scroll_mage.png" ],
+        "obj_lockpicks": [ "Outils de crochetage", ITEM, "obj_lockpicks.png" ],
+        "obj_longsword": [ "Épée longue", ITEM, "obj_longsword.png" ],
+        "obj_robes": [ "Robe", ITEM, "obj_robe.png" ],
+        "obj_spell_book": [ "Livre de sorts", ITEM, "obj_spell_book.png" ],
+        "obj_holy_symbol": [ "Symbole sacré", ITEM, "obj_holy_symbol.png" ],
+        "obj_pala_grail": [ "Symbole sacré (paladin)", ITEM, "obj_pala_grail.png" ],
     }
 
     // C'est un peu dégueux, parce qu'on se retrouve avec les données en triple,
@@ -266,13 +290,98 @@ svg {
     }
 
     answers = [
-        ["person_fighter", "obj_longsword", false],
-        ["person_mage", "obj_robes", false],
-        ["person_fighter", "obj_robes", false],
-        ["person_thief", "obj_robes", false],
-        ["person_mage", "obj_spell_book", false],
-        ["person_cleric", "obj_holy_symbol", false],
-        ["person_pala", "obj_pala_grail", false],
+        [ "person_fighter", "obj_longsword", false ],
+        [ "person_fighter", "obj_shortsword", false ],
+        [ "person_fighter", "obj_axe", false ],
+        [ "person_fighter", "obj_mace", false ],
+        [ "person_fighter", "obj_staff", false ],
+        [ "person_fighter", "obj_flail", false ],
+        [ "person_fighter", "obj_dagger", false ],
+        [ "person_fighter", "obj_dart", false ],
+        [ "person_fighter", "obj_sling", false ],
+        [ "person_fighter", "obj_bow", false ],
+        [ "person_fighter", "obj_spear", false ],
+        [ "person_fighter", "obj_shield", false ],
+        [ "person_fighter", "obj_boots", false ],
+        [ "person_fighter", "obj_leather_armor", false ],
+        [ "person_fighter", "obj_heavy_armor", false ],
+        [ "person_fighter", "obj_bracers", false ],
+        [ "person_fighter", "obj_robes", false ],
+
+        [ "person_pala", "obj_pala_grail", false ],
+        [ "person_pala", "obj_scroll_cleric", false ],
+        [ "person_pala", "obj_longsword", false ],
+        [ "person_pala", "obj_shortsword", false ],
+        [ "person_pala", "obj_axe", false ],
+        [ "person_pala", "obj_mace", false ],
+        [ "person_pala", "obj_staff", false ],
+        [ "person_pala", "obj_flail", false ],
+        [ "person_pala", "obj_dagger", false ],
+        [ "person_pala", "obj_dart", false ],
+        [ "person_pala", "obj_sling", false ],
+        [ "person_pala", "obj_bow", false ],
+        [ "person_pala", "obj_spear", false ],
+        [ "person_pala", "obj_shield", false ],
+        [ "person_pala", "obj_boots", false ],
+        [ "person_pala", "obj_leather_armor", false ],
+        [ "person_pala", "obj_heavy_armor", false ],
+        [ "person_pala", "obj_bracers", false ],
+        [ "person_pala", "obj_robes", false ],
+
+        [ "person_ranger", "obj_longsword", false ],
+        [ "person_ranger", "obj_shortsword", false ],
+        [ "person_ranger", "obj_axe", false ],
+        [ "person_ranger", "obj_mace", false ],
+        [ "person_ranger", "obj_staff", false ],
+        [ "person_ranger", "obj_flail", false ],
+        [ "person_ranger", "obj_dagger", false ],
+        [ "person_ranger", "obj_dart", false ],
+        [ "person_ranger", "obj_sling", false ],
+        [ "person_ranger", "obj_bow", false ],
+        [ "person_ranger", "obj_spear", false ],
+        [ "person_ranger", "obj_shield", false ],
+        [ "person_ranger", "obj_boots", false ],
+        [ "person_ranger", "obj_leather_armor", false ],
+        [ "person_ranger", "obj_heavy_armor", false ],
+        [ "person_ranger", "obj_bracers", false ],
+        [ "person_ranger", "obj_robes", false ],
+
+
+        [ "person_thief", "obj_robes", false ],
+        [ "person_thief", "obj_shortsword", false ],
+        [ "person_thief", "obj_staff", false ],
+        [ "person_thief", "obj_dagger", false ],
+        [ "person_thief", "obj_dart", false ],
+        [ "person_thief", "obj_sling", false ],
+        [ "person_thief", "obj_bow", false ],
+        [ "person_thief", "obj_shield", false ],
+        [ "person_thief", "obj_boots", false ],
+        [ "person_thief", "obj_leather_armor", false ],
+        [ "person_thief", "obj_bracers", false ],
+        [ "person_thief", "obj_lockpicks", false ],
+
+
+        [ "person_cleric", "obj_holy_symbol", false ],
+        [ "person_cleric", "obj_mace", false ],
+        [ "person_cleric", "obj_staff", false ],
+        [ "person_cleric", "obj_flail", false ],
+        [ "person_cleric", "obj_sling", false ],
+        [ "person_cleric", "obj_boots", false ],
+        [ "person_cleric", "obj_leather_armor", false ],
+        [ "person_cleric", "obj_bracers", false ],
+        [ "person_cleric", "obj_scroll_cleric", false ],
+        [ "person_cleric", "obj_robes", false ],
+
+
+        [ "person_mage", "obj_robes", false ],
+        [ "person_mage", "obj_staff", false ],
+        [ "person_mage", "obj_dagger", false ],
+        [ "person_mage", "obj_dart", false ],
+        [ "person_mage", "obj_boots", false ],
+        [ "person_mage", "obj_bracers", false ],
+        [ "person_mage", "obj_scroll_mage", false ],
+        [ "person_mage", "obj_spell_book", false ],
+
     ]
 
     selected_person = null;

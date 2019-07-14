@@ -48,6 +48,20 @@ image {
     image-rendering: crisp-edges;
 }
 
+img {
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
+}
+
+
+h2 {
+    text-align: center;
+}
+
+svg {
+    background-color: #E0E0E0;
+}
 
 </style>
 </head><body>
@@ -61,18 +75,22 @@ image {
 display: table-cell;
 width: 75%;
   /* border: 3px solid blue; */
-  padding: 10px;
-  background-color: #E0E0E0;
+  padding-right: 10px;
   ">
 
         </div>
         <div style="
-  /* border: 3px solid #73AD21; */
-  padding: 10px; display: table-cell; vertical-align: top;
+  /* border: 3px solid #73AD21;
+  padding: 10px;*/
+   display: table-cell; vertical-align: top;
 position: relative;
+border: solid black 2px;
 ">
 
-            <div class="descrip-person" style="padding: 0.5em; font-size: 1.2em;"></div>
+            <div class="descrip-person" style="padding: 0.5em; font-size: 1.2em;">
+                <h2 class="person-title">Marc</h2>
+                <img class="person-img" src="img/person_marc.jpg" style="height: 7em;">
+            </div>
             <div style="
 /*
 Ajout d'une ligne horizontale noire au milieu, qui passe derrière le bouton.
@@ -80,60 +98,55 @@ C'est sûrement pas comme ça qu'il faut le faire, mais je suis pas magicien et 
 */
 
 border: none;
-/*    width: 50%;
-    margin: auto;*/
     margin-top: 5%;
     margin-bottom: 5%;
-    /*height: 40px;*/
-
-/*
-
-/*
-    background: linear-gradient(135deg, #ECEDDC 25%, transparent 25%) -20px 0,
-    linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -20px 0,
-    linear-gradient(315deg, #ECEDDC 25%, transparent 25%),
-    linear-gradient(45deg, #ECEDDC 25%, transparent 25%);
-    */
 
 
-    background: linear-gradient(135deg, #ECEDDC 48%, transparent 48%) -2px 0,
-    linear-gradient(225deg, #ECEDDC 48%, transparent 48%) -2px 0,
-    linear-gradient(315deg, #ECEDDC 48%, transparent 48%),
-    linear-gradient(45deg, #ECEDDC 48%, transparent 48%);
 
 
-    /*background-size: 40px 40px;*/
+
+    background: linear-gradient(135deg, white 48%, transparent 48%) -2px 0,
+    linear-gradient(225deg, white 48%, transparent 48%) -2px 0,
+    linear-gradient(315deg, white 48%, transparent 48%),
+    linear-gradient(45deg, white 48%, transparent 48%);
+
+
+
     background-color: black;
 
-/*
-            background: repeating-linear-gradient(
-            0deg,
-            #222,
-            #222 10px,
-            #333 10px,
-            #333 20px
-          );
-          */
-          background-position: 50%;
-          background-size: 5px 5px;
 
-/*
-          background: #fff;
-    background: linear-gradient(0deg, transparent, #353535, transparent);
-    /*background: black;*/
-    background-position: 50%;
+          background-position: 50%;
+
+
+
+
     background-repeat: repeat-x;
     background-size: 1px auto;
-*/
+
           ">
             <div style="  margin: auto;
   width: 50%;">
                 <div class="button associate">Associer</div>
             </div>
         </div>
-            <div class="descrip-itm" style="padding: 0.5em; font-size: 1.2em;"></div>
+            <div class="descrip-itm" style="padding: 0.5em; font-size: 1.2em; padding-bottom: 1em;">
+                <h2 class="itm-title">Épée longue</h2>
+                <img class="itm-img" src="img/obj_longsword.png" style="height: 7em;">
+                <p>
+                    bla bla<br>
+                    bla bla<br>
+                    bla bla<br>
+                    bla bla<br>
+                    mon cul c'est du poulet.
+                </p>
+            </div>
 
-            <div style="position: absolute; bottom: 0;">Nombre de liaisons à trouver : <span class="remaining-links">00</span></div>
+            <div style="position: absolute; bottom: 0; background-color: #80FF90; width: 100%; border-top: solid 2px black;">
+                <div style="padding:0.5em;">
+                    Nombre de liaisons à trouver :
+                    <span class="remaining-links">00</span>
+                </div>
+            </div>
 
         </div>
     </div>
@@ -142,6 +155,8 @@ border: none;
 
 <script src="d3.js"></script>
 <script>
+
+    // BIG TODO : html entities
 
     const PERSON = 0;
     const ITEM = 1;
@@ -182,7 +197,6 @@ border: none;
     }
 
     answers = [
-
         ["person_fighter", "obj_longsword", false],
         ["person_mage", "obj_robes", false],
         ["person_fighter", "obj_robes", false],
@@ -190,7 +204,6 @@ border: none;
         ["person_mage", "obj_spell_book", false],
         ["person_cleric", "obj_holy_symbol", false],
         ["person_pala", "obj_pala_grail", false],
-
     ]
 
     selected_person = null;
@@ -263,8 +276,14 @@ border: none;
             if (selected_node_infos == null) {
                 return
             }
+            node_name = selected_node_infos[0]
+            node_img = selected_node_infos[2]
+
             if (selected_node_infos[1] == PERSON) {
-                d3.select(".descrip-person").html("Personne sélectionnée : " + selected_node_infos[0] + "<br><br>(Bla bla description personne).")
+
+                d3.select(".descrip-person").show()
+                d3.select(".person-title").html(node_name)
+                d3.select(".person-img").attr("src", "img/" + node_img)
                 selected_person = selected_node_id
             }
             else if (selected_node_infos[1] == ITEM) {

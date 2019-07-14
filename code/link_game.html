@@ -1,5 +1,6 @@
 <!DOCTYPE html>
-<meta charset="utf-8">
+<html><head>
+<meta http-equiv="content-type" content="text/html; charset=UTF-8"><meta charset="utf-8">
 <style>
 
     circle {
@@ -42,13 +43,14 @@ body {
 }
 
 image {
-  image-rendering: pixelated;
-  image-rendering: -moz-crisp-edges;
-  image-rendering: crisp-edges;
+    image-rendering: pixelated;
+    image-rendering: -moz-crisp-edges;
+    image-rendering: crisp-edges;
 }
 
+
 </style>
-<body>
+</head><body>
 
 <!-- https://stackoverflow.com/questions/2637696/how-to-place-div-side-by-side -->
 <!-- TODO : Mettre les styles dans la balise style au début du fichier. Fuck le CSS. -->
@@ -59,23 +61,84 @@ image {
 display: table-cell;
 width: 75%;
   /* border: 3px solid blue; */
-  padding: 10px;">
+  padding: 10px;
+  background-color: #E0E0E0;
+  ">
 
         </div>
         <div style="
   /* border: 3px solid #73AD21; */
-  padding: 10px; display: table-cell; vertical-align: top; background-color: lightgray;">
+  padding: 10px; display: table-cell; vertical-align: top;
+position: relative;
+">
 
             <div class="descrip-person" style="padding: 0.5em; font-size: 1.2em;"></div>
+            <div style="
+/*
+Ajout d'une ligne horizontale noire au milieu, qui passe derrière le bouton.
+C'est sûrement pas comme ça qu'il faut le faire, mais je suis pas magicien et j'ai jamais rien compris à ce putain de CSS.
+*/
+
+border: none;
+/*    width: 50%;
+    margin: auto;*/
+    margin-top: 5%;
+    margin-bottom: 5%;
+    /*height: 40px;*/
+
+/*
+
+/*
+    background: linear-gradient(135deg, #ECEDDC 25%, transparent 25%) -20px 0,
+    linear-gradient(225deg, #ECEDDC 25%, transparent 25%) -20px 0,
+    linear-gradient(315deg, #ECEDDC 25%, transparent 25%),
+    linear-gradient(45deg, #ECEDDC 25%, transparent 25%);
+    */
+
+
+    background: linear-gradient(135deg, #ECEDDC 48%, transparent 48%) -2px 0,
+    linear-gradient(225deg, #ECEDDC 48%, transparent 48%) -2px 0,
+    linear-gradient(315deg, #ECEDDC 48%, transparent 48%),
+    linear-gradient(45deg, #ECEDDC 48%, transparent 48%);
+
+
+    /*background-size: 40px 40px;*/
+    background-color: black;
+
+/*
+            background: repeating-linear-gradient(
+            0deg,
+            #222,
+            #222 10px,
+            #333 10px,
+            #333 20px
+          );
+          */
+          background-position: 50%;
+          background-size: 5px 5px;
+
+/*
+          background: #fff;
+    background: linear-gradient(0deg, transparent, #353535, transparent);
+    /*background: black;*/
+    background-position: 50%;
+    background-repeat: repeat-x;
+    background-size: 1px auto;
+*/
+          ">
             <div style="  margin: auto;
-  width: 50%; ">
+  width: 50%;">
                 <div class="button associate">Associer</div>
             </div>
+        </div>
             <div class="descrip-itm" style="padding: 0.5em; font-size: 1.2em;"></div>
+
+            <div style="position: absolute; bottom: 0;">Nombre de liaisons à trouver : <span class="remaining-links">00</span></div>
 
         </div>
     </div>
 </div>
+
 
 <script src="d3.js"></script>
 <script>
@@ -95,11 +158,13 @@ width: 75%;
         "person_thief": ["Voleur / Voleuse", PERSON, "person_thief.png"],
         "person_cleric": ["Prêtre / Prêtresse", PERSON, "person_cleric.png"],
         "person_pala": ["Paladin / Paladine", PERSON, "person_pala.png"],
+
         "obj_longsword": ["Épée longue", ITEM, "obj_longsword.png"],
         "obj_robes": ["Robe", ITEM, "obj_robe.png"],
         "obj_spell_book": ["Livre de sorts", ITEM, "obj_spell_book.png"],
         "obj_holy_symbol": ["Symbole sacré", ITEM, "obj_holy_symbol.png"],
         "obj_pala_grail": ["Symbole sacré (paladin)", ITEM, "obj_pala_grail.png"],
+
     }
 
     // C'est un peu dégueux, parce qu'on se retrouve avec les données en triple,
@@ -117,6 +182,7 @@ width: 75%;
     }
 
     answers = [
+
         ["person_fighter", "obj_longsword", false],
         ["person_mage", "obj_robes", false],
         ["person_fighter", "obj_robes", false],
@@ -124,6 +190,7 @@ width: 75%;
         ["person_mage", "obj_spell_book", false],
         ["person_cleric", "obj_holy_symbol", false],
         ["person_pala", "obj_pala_grail", false],
+
     ]
 
     selected_person = null;
@@ -140,9 +207,12 @@ width: 75%;
         // https://stackoverflow.com/questions/3010840/loop-through-an-array-in-javascript#3010848
         // C'est une blague ? Il faut lire deux articles et envisager 6 façons de faire pour boucler sur un tableau ?
         // C'est quoi ce langage ?
+        var nb_remaining_links = 0
         for (var answer of answers) {
             if (answer[2]) {
                 graph["links"].push({source: dict_nodes_processed[answer[0]], target: dict_nodes_processed[answer[1]], value: 1})
+            } else {
+                nb_remaining_links += 1
             }
         }
 
@@ -174,23 +244,16 @@ width: 75%;
             .call(force.drag)
 
         node.append("image")
-            //.attr("xlink:href", "silver_key.png")
             .attr("xlink:href", function(d) { return d.img })
             .attr("x", -25)
             .attr("y", -25)
             .attr("width", 50)
             .attr("height", 50)
 
-        node.append("text")
-            .attr("dx", 27)
-            .attr("dy", ".35em")
-            .text(function(d) { return d.name })
-
         force.nodes(graph.nodes)
             .links(graph.links)
             .on("tick", tick)
             .start()
-
 
         node.on("click", function() {
 
@@ -201,17 +264,17 @@ width: 75%;
                 return
             }
             if (selected_node_infos[1] == PERSON) {
-                // WLA TODO : html entities
                 d3.select(".descrip-person").html("Personne sélectionnée : " + selected_node_infos[0] + "<br><br>(Bla bla description personne).")
                 selected_person = selected_node_id
             }
             else if (selected_node_infos[1] == ITEM) {
-                // WLA TODO : html entities
                 d3.select(".descrip-itm").html("Item sélectionné : " + selected_node_infos[0] + "<br><br>(Bla bla description item).")
                 selected_item = selected_node_id
             }
 
         })
+
+        d3.select(".remaining-links").html(nb_remaining_links)
 
     }
 
@@ -258,5 +321,15 @@ width: 75%;
 
     init_force_layout()
 
+    /*
+    TODO :
+     X images
+     - images et textes à la sélection.
+     X compteur de lien à trouver
+     - message d'insulte quand ça foire.
+     - finaliser le css
+     - ranger le css
+    */
+
 </script>
-</body>
+</body></html>

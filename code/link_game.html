@@ -179,6 +179,35 @@ svg {
             <div class="descrip-person" style="display: none;">
                 <h2 class="person-title"></h2>
                 <img class="person-img detail-img" src="">
+
+                <div class="person-details person_all">
+                    person_all
+                </div>
+                <div class="person-details person_no_spell_caster">
+                    person_no_spell_caster
+                </div>
+                <div class="person-details person_generic_fighter">
+                    person_generic_fighter
+                </div>
+                <div class="person-details person_fighter">
+                    person_fighter
+                </div>
+                <div class="person-details person_mage">
+                    person_mage
+                </div>
+                <div class="person-details person_thief">
+                    person_thief
+                </div>
+                <div class="person-details person_cleric">
+                    person_cleric
+                </div>
+                <div class="person-details person_pala">
+                    person_pala
+                </div>
+                <div class="person-details person_ranger">
+                    person_ranger
+                </div>
+
             </div>
 
             <div class="descrip_separation">
@@ -243,15 +272,15 @@ svg {
     // Les visages des personnages du jeu : https://twitter.com/dosnostalgic/status/770694586897408000
 
     dict_nodes = {
+        "person_all": [ "Tout le monde", PERSON, "person_all.png "],
+        "person_no_spell_caster": [ "Personnes \"non-magiques\"", PERSON, "person_no_spell_caster.png "],
+        "person_generic_fighter": [ "Combattant / combattante", PERSON, "person_generic_fighter.png "],
         "person_fighter": [ "Guerrier / guerrière", PERSON, "person_fighter.png "],
         "person_mage": [ "Mage", PERSON, "person_mage.png "],
         "person_thief": [ "Voleur / Voleuse", PERSON, "person_thief.png "],
         "person_cleric": [ "Prêtre / Prêtresse", PERSON, "person_cleric.png "],
         "person_pala": [ "Paladin / Paladine", PERSON, "person_pala.png "],
         "person_ranger": [ "Rôdeur / Rôdeuse", PERSON, "person_ranger.png "],
-        "person_generic_fighter": [ "Combattant / combattante", PERSON, "person_generic_fighter.png "],
-        "person_no_spell_caster": [ "Personnes \"non-magiques\"", PERSON, "person_no_spell_caster.png "],
-        "person_all": [ "Tout le monde", PERSON, "person_all.png "],
 
         "obj_shortsword": [ "Épée courte", ITEM, "obj_shortsword.png" ],
         "obj_axe": [ "Hache", ITEM, "obj_axe.png" ],
@@ -345,6 +374,7 @@ svg {
     selected_item = null;
 
     d3.selectAll(".itm-details").attr("style", "display: none;")
+    d3.selectAll(".person-details").attr("style", "display: none;")
 
     function init_force_layout() {
 
@@ -421,6 +451,8 @@ svg {
                 d3.select(".person-title").html(node_name)
                 d3.select(".person-img").attr("src", "img/" + node_img)
                 selected_person = selected_node_id
+                d3.selectAll(".person-details").attr("style", "display: none;")
+                d3.select("."+selected_node_id).attr("style", "display: block;")
             }
             else if (selected_node_infos[1] == ITEM) {
                 d3.select(".descrip-itm").attr("style", "display: block;")

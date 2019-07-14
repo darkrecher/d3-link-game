@@ -7,7 +7,8 @@
     }
 
     line {
-      stroke: #999;
+        stroke: #181818;
+        stroke-width: 3px;
     }
 
 .button {
@@ -38,6 +39,12 @@
 
 body {
     font-family: arial;
+}
+
+image {
+  image-rendering: pixelated;
+  image-rendering: -moz-crisp-edges;
+  image-rendering: crisp-edges;
 }
 
 </style>
@@ -82,16 +89,17 @@ width: 75%;
     // Modifying a Force Layout https://bl.ocks.org/mbostock/1095795
 
     dict_nodes = {
-        "person_war": ["Guerrier", PERSON ],
-        "person_mage": ["Mage", PERSON ],
-        "person_thief": ["Voleur", PERSON ],
-        "person_priest": ["Prêtre", PERSON ],
-        "person_pala": ["Paladin", PERSON ],
-        "obj_longsword": ["Épée longue", ITEM ],
-        "obj_robes": ["Robe", ITEM ],
-        "obj_spell_book": ["Livre de sorts", ITEM ],
-        "obj_holy_symbol": ["Symbole sacré", ITEM ],
-        "obj_pala_grail": ["Symbole sacré (paladin)", ITEM ],
+
+        "person_fighter": ["Guerrier / guerrière", PERSON, "person_fighter.png"],
+        "person_mage": ["Mage", PERSON, "person_mage.png"],
+        "person_thief": ["Voleur / Voleuse", PERSON, "person_thief.png"],
+        "person_cleric": ["Prêtre / Prêtresse", PERSON, "person_cleric.png"],
+        "person_pala": ["Paladin / Paladine", PERSON, "person_pala.png"],
+        "obj_longsword": ["Épée longue", ITEM, "obj_longsword.png"],
+        "obj_robes": ["Robe", ITEM, "obj_robe.png"],
+        "obj_spell_book": ["Livre de sorts", ITEM, "obj_spell_book.png"],
+        "obj_holy_symbol": ["Symbole sacré", ITEM, "obj_holy_symbol.png"],
+        "obj_pala_grail": ["Symbole sacré (paladin)", ITEM, "obj_pala_grail.png"],
     }
 
     // C'est un peu dégueux, parce qu'on se retrouve avec les données en triple,
@@ -102,18 +110,19 @@ width: 75%;
 
     for (var key in dict_nodes) {
         var name = dict_nodes[key][0]
-        new_node = { "node_id": key, "name": name }
+        var img = dict_nodes[key][2]
+        new_node = { "node_id": key, "name": name, "img": "img/"+img }
         init_nodes.push(new_node)
         dict_nodes_processed[key] = new_node
     }
 
     answers = [
-        ["person_war", "obj_longsword", false],
+        ["person_fighter", "obj_longsword", false],
         ["person_mage", "obj_robes", false],
-        ["person_war", "obj_robes", false],
+        ["person_fighter", "obj_robes", false],
         ["person_thief", "obj_robes", false],
         ["person_mage", "obj_spell_book", false],
-        ["person_priest", "obj_holy_symbol", false],
+        ["person_cleric", "obj_holy_symbol", false],
         ["person_pala", "obj_pala_grail", false],
     ]
 
@@ -146,7 +155,7 @@ width: 75%;
         var force = d3.layout.force()
             .gravity(.05)
             .charge(-240)
-            .linkDistance(50)
+            .linkDistance(120)
             .size([width, height])
 
         // https://stackoverflow.com/questions/11942500/how-to-make-force-layout-graph-in-d3-js-responsive-to-screen-browser-size
@@ -165,14 +174,15 @@ width: 75%;
             .call(force.drag)
 
         node.append("image")
-            .attr("xlink:href", "silver_key.png")
-            .attr("x", -8)
-            .attr("y", -8)
-            .attr("width", 16)
-            .attr("height", 16)
+            //.attr("xlink:href", "silver_key.png")
+            .attr("xlink:href", function(d) { return d.img })
+            .attr("x", -25)
+            .attr("y", -25)
+            .attr("width", 50)
+            .attr("height", 50)
 
         node.append("text")
-            .attr("dx", 12)
+            .attr("dx", 27)
             .attr("dy", ".35em")
             .text(function(d) { return d.name })
 

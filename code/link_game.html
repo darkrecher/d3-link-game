@@ -4,14 +4,12 @@
 <meta charset="utf-8">
 <style>
 
-    circle {
-      stroke-width: 1.5px;
-    }
+/* C'est un peu tout écrit à l'arrache. Désolé, j'aime pas le CSS, j'y pige jamais rien. */
 
-    line {
-        stroke: #181818;
-        stroke-width: 3px;
-    }
+line {
+    stroke: #808080;
+    stroke-width: 3px;
+}
 
 .button {
   background-color: #4CAF50;
@@ -23,14 +21,12 @@
   text-decoration: none;
   display: inline-block;
   font-size: 2em;
-  /*margin: 4px 2px;*/
   -webkit-transition-duration: 0.4s; /* Safari */
   transition-duration: 0.4s;
   cursor: pointer;
   background-color: white;
   color: black;
   border: 2px solid #4CAF50;
-
   width: 100%;
 }
 
@@ -42,7 +38,6 @@
 body {
     font-family: arial;
 }
-
 
 image {
     image-rendering: pixelated;
@@ -61,8 +56,21 @@ h2 {
     margin-top: 0.2em;
 }
 
+.svg-container {
+    display: table-cell;
+    width: 75%;
+    padding-right: 10px;
+}
+
 svg {
     background-color: #E0E0E0;
+}
+
+.descrip {
+    display: table-cell;
+    vertical-align: top;
+    position: relative;
+    border: solid black 2px;
 }
 
 .descrip-person {
@@ -86,8 +94,52 @@ svg {
     padding-bottom: 2em;
 }
 
-.fail-message {
+.descrip_separation {
+    /*
+    Ajout d'une ligne horizontale noire au milieu, qui passe derrière le bouton.
+    C'est sûrement pas comme ça qu'il faut le faire, mais je suis pas magicien et j'ai jamais rien compris à ce putain de CSS.
+    */
+    border: none;
+    margin-top: 5%;
+    background:
+        linear-gradient(135deg, white 48%, transparent 48%) -2px 0,
+        linear-gradient(225deg, white 48%, transparent 48%) -2px 0,
+        linear-gradient(315deg, white 48%, transparent 48%),
+        linear-gradient(45deg, white 48%, transparent 48%);
+    background-color: black;
+    background-position: 50%;
+    background-repeat: repeat-x;
+    background-size: 1px auto;
+}
 
+.detail-img {
+    height: 4em;
+}
+
+/* https://stackoverflow.com/questions/2637696/how-to-place-div-side-by-side */
+.main-div {
+    width: 100%;
+    display: table;
+}
+
+.main-div>div {
+    padding: 10px;
+    display: table-row;
+}
+
+.remaining-links-container {
+    position: absolute;
+    bottom: 0;
+    background-color: #80FF90;
+    width: 100%;
+    border-top: solid 2px black;
+}
+
+.remaining-links-container {
+    padding:0.5em;
+}
+
+.fail-message {
     text-align: center;
     width: 100%;
     background-color: red;
@@ -95,101 +147,49 @@ svg {
     color: white;
     font-weight: bold;
     font-size: 1.5em;
-
     animation: shake 0.5s;
-
-    /* When the animation is finished, start again */
     animation-iteration-count: 3;
-
 }
 
-
 @keyframes shake {
-  0% { transform: translate(1px, 1px) rotate(0deg); }
-  10% { transform: translate(-1px, -2px) rotate(-1deg); }
-  20% { transform: translate(-3px, 0px) rotate(1deg); }
-  30% { transform: translate(3px, 2px) rotate(0deg); }
-  40% { transform: translate(1px, -1px) rotate(1deg); }
-  50% { transform: translate(-1px, 2px) rotate(-1deg); }
-  60% { transform: translate(-3px, 1px) rotate(0deg); }
-  70% { transform: translate(3px, 1px) rotate(-1deg); }
-  80% { transform: translate(-1px, -1px) rotate(1deg); }
-  90% { transform: translate(1px, 2px) rotate(0deg); }
-  100% { transform: translate(1px, -2px) rotate(-1deg); }
+    0% { transform: translate(1px, 1px) rotate(0deg); }
+    10% { transform: translate(-1px, -2px) rotate(-1deg); }
+    20% { transform: translate(-3px, 0px) rotate(1deg); }
+    30% { transform: translate(3px, 2px) rotate(0deg); }
+    40% { transform: translate(1px, -1px) rotate(1deg); }
+    50% { transform: translate(-1px, 2px) rotate(-1deg); }
+    60% { transform: translate(-3px, 1px) rotate(0deg); }
+    70% { transform: translate(3px, 1px) rotate(-1deg); }
+    80% { transform: translate(-1px, -1px) rotate(1deg); }
+    90% { transform: translate(1px, 2px) rotate(0deg); }
+    100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
 </style>
 </head>
+
 <body>
 
-<!-- https://stackoverflow.com/questions/2637696/how-to-place-div-side-by-side -->
-<!-- TODO : Mettre les styles dans la balise style au début du fichier. Fuck le CSS. -->
-<div style="width: 100%; display: table;">
-    <div style="
-  padding: 10px; overflow: ; display: table-row;">
-        <div style="
-display: table-cell;
-width: 75%;
-  /* border: 3px solid blue; */
-  padding-right: 10px;
-  ">
-<div class="svg-container">
-
-</div>
+<div class="main-div">
+    <div>
+        <div class="svg-container">
         </div>
-        <div style="
-  /* border: 3px solid #73AD21;
-  padding: 10px;*/
-   display: table-cell; vertical-align: top;
-position: relative;
-border: solid black 2px;
-">
+        <div class="descrip">
 
             <div class="descrip-person" style="display: none;">
                 <h2 class="person-title"></h2>
-                <img class="person-img" src="" style="height: 7em;">
+                <img class="person-img detail-img" src="">
             </div>
-            <div style="
-/*
-Ajout d'une ligne horizontale noire au milieu, qui passe derrière le bouton.
-C'est sûrement pas comme ça qu'il faut le faire, mais je suis pas magicien et j'ai jamais rien compris à ce putain de CSS.
-*/
 
-border: none;
-    margin-top: 5%;
-
-
-
-
-
-
-    background: linear-gradient(135deg, white 48%, transparent 48%) -2px 0,
-    linear-gradient(225deg, white 48%, transparent 48%) -2px 0,
-    linear-gradient(315deg, white 48%, transparent 48%),
-    linear-gradient(45deg, white 48%, transparent 48%);
-
-
-
-    background-color: black;
-
-
-          background-position: 50%;
-
-
-
-
-    background-repeat: repeat-x;
-    background-size: 1px auto;
-
-          ">
-            <div class="button-container" style="display: none;">
-                <div class="button associate">Associer</div>
+            <div class="descrip_separation">
+                <div class="button-container" style="display: none;">
+                    <div class="button associate">Associer</div>
+                </div>
             </div>
-        </div>
 
             <div class="descrip-itm" style="display: none;">
                 <h2 class="itm-title"></h2>
-                <img class="itm-img" src="" style="height: 7em;">
+                <img class="itm-img detail-img" src="">
 
                 <div class="itm-details obj_longsword">
                     obj_longsword
@@ -207,10 +207,11 @@ border: none;
                 <div class="itm-details obj_pala_grail">
                     obj_pala_grail
                 </div>
+
             </div>
 
-            <div style="position: absolute; bottom: 0; background-color: #80FF90; width: 100%; border-top: solid 2px black;">
-                <div style="padding:0.5em;">
+            <div class="remaining-links-container">
+                <div>
                     Nombre de liaisons à trouver :
                     <span class="remaining-links">00</span>
                 </div>
@@ -224,8 +225,8 @@ border: none;
     Stupide !!
 </div>
 
-
 <script src="d3.js"></script>
+
 <script>
 
     const PERSON = 0;
@@ -388,7 +389,6 @@ border: none;
 
     d3.select(".associate").on("click", function () {
 
-
         if (selected_person == null) {
             return
         }
@@ -404,8 +404,7 @@ border: none;
             {
                 show_stupid = false
                 if (answer[2] == false)
-                { //&& (
-                //((answer[0] == selected_person) && (answer[1] == selected_item)) || ((answer[1] == selected_person) && (answer[0] == selected_item))
+                {
                     answer[2] = true
                     must_refresh = true
                 }
@@ -426,7 +425,6 @@ border: none;
                 2000
             )
         }
-
 
     })
 

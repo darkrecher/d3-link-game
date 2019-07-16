@@ -1,10 +1,10 @@
 # d3-link-game
 
-Petit jeu où il faut trouver des connexions entre éléments, utilisant la librairie javascript d3.js.
+Petit jeu utilisant la librairie javascript d3.js, dans lequel il faut trouver des connexions entre éléments.
 
-TODO screenshot.
+![screenshot_game.png](screenshot_game.png)
 
-Il s'agit d'un hommage au jeu vidéo "Eye of the Beholder". Le but du jeu est d'associer les classes (ou groupes de classes) de personnages aux armes et aux armures qu'elles ont le droit d'utiliser.
+Il s'agit d'un hommage au jeu vidéo "Eye of the Beholder". Le but est d'associer les classes (ou groupes de classes) de personnages aux armes et aux armures qu'elles ont le droit d'utiliser.
 
 
 ## Comment jouer

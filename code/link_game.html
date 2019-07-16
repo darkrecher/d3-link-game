@@ -88,6 +88,7 @@
                     <br>
                     Sauf ceux qui étaient magiques.
                 </div>
+                <br>
 
             </div>
 
@@ -102,9 +103,17 @@
     </div>
 </div>
 
-<div class="fail-message" style="display: none;">
+<div class="fail-message" style="visibility: hidden;">
     Stupide !!
 </div>
+<div>
+    <a href="https://github.com/darkrecher/d3-link-game">https://github.com/darkrecher/d3-link-game</a>
+    <br>
+    Les images proviennent du jeu "Eye of the Beholder".
+    <a href="https://www.vgmaps.com/Atlas/PC/index.htm">Lien vers les objets.</a>
+    <a href="https://www.spriters-resource.com/pc_computer/adndbeholder/sheet/50925/">Lien vers les personnages.</a>
+</div>
+
 
 <script src="d3.js"></script>
 
@@ -372,10 +381,10 @@
             init_force_layout()
         }
         if (show_stupid) {
-            d3.select(".fail-message").attr("style", "display: block;")
+            d3.select(".fail-message").attr("style", "visibility: visible;")
             setTimeout(
                 function(){
-                    d3.select(".fail-message").attr("style", "display: none;")
+                    d3.select(".fail-message").attr("style", "visibility: hidden;")
                 },
                 2000
             )

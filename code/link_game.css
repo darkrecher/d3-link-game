@@ -129,7 +129,7 @@ svg {
     border-top: solid 2px black;
 }
 
-.remaining-links-container {
+.remaining-links-container>div {
     padding:0.5em;
 }
 
@@ -159,3 +159,7 @@ svg {
     100% { transform: translate(1px, -2px) rotate(-1deg); }
 }
 
+.portrait {
+    height: 4em;
+    padding: 0.5em;
+}

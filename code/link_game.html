@@ -20,31 +20,41 @@
                 <img class="person-img detail-img" src="">
 
                 <div class="person-details person_all">
-                    person_all
+                    Toutes les classes de personnage
                 </div>
                 <div class="person-details person_no_spell_caster">
-                    person_no_spell_caster
+                    Guerrière, Rôdeuse, Paladine, Voleuse.
+                    <br>
+                    Guerrier, Rôdeur, Paladin, Voleur.
                 </div>
                 <div class="person-details person_generic_fighter">
-                    person_generic_fighter
+                    Guerrière, Rôdeuse, Paladine.
+                    <br>
+                    Guerrier, Rôdeur, Paladin.
                 </div>
                 <div class="person-details person_fighter">
-                    person_fighter
+                    <img src="img/descr_person_fighter_woman.png" class="portrait">
+                    <img src="img/descr_person_fighter_man.png" class="portrait">
                 </div>
                 <div class="person-details person_mage">
-                    person_mage
+                    <img src="img/descr_person_mage_woman.png" class="portrait">
+                    <img src="img/descr_person_mage_man.png" class="portrait">
                 </div>
                 <div class="person-details person_thief">
-                    person_thief
+                    <img src="img/descr_person_thief_woman.png" class="portrait">
+                    <img src="img/descr_person_thief_man.png" class="portrait">
                 </div>
                 <div class="person-details person_cleric">
-                    person_cleric
+                    <img src="img/descr_person_cleric_woman.png" class="portrait">
+                    <img src="img/descr_person_cleric_man.png" class="portrait">
                 </div>
                 <div class="person-details person_pala">
-                    person_pala
+                    <img src="img/descr_person_pala_woman.png" class="portrait">
+                    <img src="img/descr_person_pala_man.png" class="portrait">
                 </div>
                 <div class="person-details person_ranger">
-                    person_ranger
+                    <img src="img/descr_person_ranger_woman.png" class="portrait">
+                    <img src="img/descr_person_ranger_man.png" class="portrait">
                 </div>
 
             </div>
@@ -59,21 +69,24 @@
                 <h2 class="itm-title"></h2>
                 <img class="itm-img detail-img" src="">
 
-                <div class="itm-details obj_longsword">
-                    obj_longsword
+                <div class="itm-details obj_sling">
+                    Sans oublier les cailloux qui vont avec.
                 </div>
-                <div class="itm-details obj_robes">
-                    obj_robes
+                <div class="itm-details obj_bow">
+                    Sans oublier les flèches qui vont avec.
                 </div>
-                <div class="itm-details obj_spell_book">
-                    obj_spell_book <br>
-                    La maaaaagiiiie !!!
+                <div class="itm-details obj_helmet">
+                    Les bottes et les casques ne faisaient pas baisser la classe d'armure.
+                    <br>
+                    Mais c'était stylé d'en porter.
                 </div>
-                <div class="itm-details obj_holy_symbol">
-                    obj_holy_symbol
+                <div class="itm-details obj_heavy_armor">
+                    Cottes de mailles, armure d'écaille, armures à bandes, armures de plates.
                 </div>
-                <div class="itm-details obj_pala_grail">
-                    obj_pala_grail
+                <div class="itm-details obj_bracers">
+                    Les bracelets ne faisaient pas baisser la classe d'armure.
+                    <br>
+                    Sauf ceux qui étaient magiques.
                 </div>
 
             </div>
@@ -108,13 +121,18 @@
     // Sources des images
     // Les armes et armures de Eye of the Beholder : https://www.vgmaps.com/Atlas/PC/index.htm
     // Les icônes des classes AD&D : https://www.pinterest.fr/pin/141581982019019754/
-    // Les visages des personnages du jeu : https://twitter.com/dosnostalgic/status/770694586897408000
+    // Les visages des personnages du jeu, en fucking jpg, donc on perd la précision des couleurs : 
+    // https://twitter.com/dosnostalgic/status/770694586897408000
+    // Les visages des personnages, en .png bien comme il faut, mais il manque les visages des persos recrutables :
+    // https://www.spriters-resource.com/pc_computer/adndbeholder/sheet/50925/
+    // Quelques visages en plus, en .png comme il faut :
+    // https://www.oldgames.sk/en/game/eye-of-the-beholder/download/422/
 
     dict_nodes = {
         "person_all": [ "Tout le monde", PERSON, "person_all.png "],
         "person_no_spell_caster": [ "Personnes \"non-magiques\"", PERSON, "person_no_spell_caster.png "],
-        "person_generic_fighter": [ "Combattant / combattante", PERSON, "person_generic_fighter.png "],
-        "person_fighter": [ "Guerrier / guerrière", PERSON, "person_fighter.png "],
+        "person_generic_fighter": [ "Combattant / Combattante", PERSON, "person_generic_fighter.png "],
+        "person_fighter": [ "Guerrier / Guerrière", PERSON, "person_fighter.png "],
         "person_mage": [ "Mage", PERSON, "person_mage.png "],
         "person_thief": [ "Voleur / Voleuse", PERSON, "person_thief.png "],
         "person_cleric": [ "Prêtre / Prêtresse", PERSON, "person_cleric.png "],
@@ -132,7 +150,7 @@
         "obj_bow": [ "Arc", ITEM, "obj_bow.png" ],
         "obj_spear": [ "Lance", ITEM, "obj_spear.png" ],
         "obj_shield": [ "Bouclier", ITEM, "obj_shield.png" ],
-        "obj_boots": [ "Bottes", ITEM, "obj_boots.png" ],
+        "obj_helmet": [ "Casque et bottes", ITEM, "obj_helmet.png" ],
         "obj_leather_armor": [ "Armure de cuir", ITEM, "obj_leather_armor.png" ],
         "obj_heavy_armor": [ "Armure lourde", ITEM, "obj_heavy_armor.png" ],
         "obj_bracers": [ "Bracelet de protection", ITEM, "obj_bracers.png" ],
@@ -171,7 +189,7 @@
         [ "person_generic_fighter", "person_ranger", true ],
 
         [ "person_all", "obj_staff", false ],
-        [ "person_all", "obj_boots", false ],
+        [ "person_all", "obj_helmet", false ],
         [ "person_all", "obj_robes", false ],
         [ "person_all", "obj_bracers", false ],
 

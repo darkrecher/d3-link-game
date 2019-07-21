@@ -41,5 +41,23 @@ Les associations définies dès le départ peuvent se faire entre n'importe quel
 
 Les associations à trouver sont obligatoirement entre un élément du premier type et un élément du deuxième type. Par exemple, il faut trouver l'association entre la Masse d'armes et la classe "Prêtre(sse)". Il n'est pas possible que le joueur doivent trouver une association entre la classe "Combattant(e)s" et la classe "Guerrier(e)".
 
-TODO : créer un fichier à part avec les infos à définir dans les fichiers pour reconfigurer.
+[Lien vers la méthode détaillée de customisation](customisation.md)
+
+
+## Credits
+
+[Eye of the Beholder](https://fr.wikipedia.org/wiki/Eye_of_the_Beholder_%28jeu_vid%C3%A9o%29) est un jeu vidéo de type dungeon crawler développé par Westwood Associates et publié par Strategic Simulations, Inc. en 1991.
+
+Images des objets (armes, armures, parchemins, ...) : [https://www.vgmaps.com/Atlas/PC/index.htm](https://www.vgmaps.com/Atlas/PC/index.htm)
+
+Tous les visages des personnages, mais avec perte de précision car c'est au format jpg : [https://twitter.com/dosnostalgic/status/770694586897408000](https://twitter.com/dosnostalgic/status/770694586897408000)
+
+Les visages des personnages (sauf ceux que l'on recrute pendant le jeu), au format png : [https://www.spriters-resource.com/pc_computer/adndbeholder/sheet/50925/](https://www.spriters-resource.com/pc_computer/adndbeholder/sheet/50925/)
+
+Quelques screenshots : [https://www.oldgames.sk/en/game/eye-of-the-beholder/download/422/](https://www.oldgames.sk/en/game/eye-of-the-beholder/download/422/)
+
+Icônes des classes de personnages. Pas de rapport direct avec Eye of the Beholder, mais je les ais utilisés pour le jeu : [https://www.pinterest.fr/pin/141581982019019754/](https://www.pinterest.fr/pin/141581982019019754/)
+
+
+
 

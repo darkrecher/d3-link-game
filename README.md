@@ -13,7 +13,7 @@ Cliquez ici : [http://recher.pythonanywhere.com/link_game/link_game.html](http:/
 
 Les classes et groupes de classes de personnages sont déjà liées ensemble, afin de représenter la manière dont ils sont structurés.
 
-Les éléments peuvent être déplacés dans l'aire de jeu par des drag&drop.
+Les éléments peuvent être déplacés dans l'aire de jeu par des drag&drops.
 
 Pour tenter une association, cliquez sur une classe ou un groupe, puis sur un objet, puis sur le bouton "Associer" à droite. Si l'association est correcte, un lien se crée, sinon, un (vilain) message s'affiche.
 
@@ -35,7 +35,7 @@ Le jeu est configurable assez facilement.
 
 Les éléments, leurs descriptions et les associations à trouver entre eux sont modifiables.
 
-Le fait d'avoir deux types d'éléments n'est pas modifiable. Le premier type correspond aux classes/groupes de personnage, le deuxième correspond aux armes et armures, mais rien n'empêche de considérer que cela pourrait correspondre à d'autres choses. Par exemple : des personnes et des hobbies pratiqués par ces personnes, des fruits et leurs couleurs, des recettes de cuisine et leurs ingrédients, etc.
+Le fait d'avoir deux types d'éléments n'est pas modifiable. Le premier type correspond aux classes/groupes de personnage, le deuxième correspond aux armes/armures/objets, mais rien n'empêche de considérer que cela pourrait correspondre à d'autres choses. Par exemple : des personnes et des hobbies pratiqués par ces personnes, des fruits et leurs couleurs, des recettes de cuisine et leurs ingrédients, etc.
 
 Les associations définies dès le départ peuvent se faire entre n'importe quels éléments. Dans le jeu initial, il y a déjà des associations entre classes/groupes de personnage. On pourrait aussi en ajouter entre des armes, même si ça n'a pas vraiment de sens.
 

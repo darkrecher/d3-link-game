@@ -4,14 +4,14 @@
 
 Toute la configuration du jeu se trouve dans le fichier `code/link_game.html`.
 
-Ce fichier contient donc à la fois la config, et le "moteur" du jeu. Ce n'est pas génial de mélanger ces deux notions dans un même fichier, mais, hey, c'est pas non plus le jeu du siècle. De plus, en séparant dans de nombreux fichiers, on augmente le risque que le jeu ne fonctionne plus en local, à cause de subtilités en sécurité web, tel que le CORS.
+Ce fichier contient à la fois la config et le "moteur" du jeu. Ce n'est pas génial de mélanger ces deux notions dans un même fichier, mais, hey, c'est pas non plus le jeu du siècle. De plus, en séparant dans de nombreux fichiers, on augmente le risque que le jeu ne fonctionne plus en local, à cause de subtilités en sécurité web, tel que le CORS.
 
 
 ## Définition des éléments de l'aire de jeu
 
-Dans le fichier `code/link_game.html`, chercher le texte `dict_nodes = {` (ligne numéro 140).
+Dans le fichier `code/link_game.html`, ligne numéro 140, se trouve le texte `dict_nodes = {`.
 
-Les lignes qui se trouvent entre ce texte et l'accolade fermante (ligne 174) définissent chacune un élément placé dans l'aire de jeu, reliable avec d'autres éléments.
+Les lignes entre ce texte et l'accolade fermante (ligne 174) définissent chacune un élément placé dans l'aire de jeu, reliable avec d'autres éléments.
 
 Chacune de ces lignes a le format suivant :
 
@@ -33,9 +33,9 @@ La répartition des éléments dans l'aire de jeu se fait automatiquement. Il n'
 
 ## Définition des liens entre les éléments
 
-Toujours dans le même fichier, chercher le texte `answers = [` (ligne numéro 190).
+Toujours dans le même fichier, ligne numéro 190, se trouve le texte `answers = [`.
 
-Les lignes qui se trouvent entre ce texte et le crochet fermant correspondant (ligne 237) définissent chacune un lien entre deux éléments du jeu.
+Les lignes entre ce texte et le crochet fermant correspondant (ligne 237) définissent chacune un lien entre deux éléments du jeu.
 
 Chacune de ces lignes a le format suivant :
 
@@ -44,37 +44,35 @@ Chacune de ces lignes a le format suivant :
 Il faut spécifier les informations suivantes :
 
  - **id\_elem\_1** : identifiant interne du premier élément à lier. Il faut indiquer l'une des valeurs `id_elem` indiquée précédemment dans la variable `dict_nodes`.
- - **id\_elem\_2** :  identifiant interne du second élément à lier. Même consigne : Il faut indiquer un `id_elem`.
- - **lien\_deja\_actif** : Spécifie si le lien est affiché dès le début du jeu, ou pas. Indiquez true ou false.
+ - **id\_elem\_2** :  identifiant interne du second élément à lier. Même consigne : il faut indiquer un `id_elem`.
+ - **lien\_deja\_actif** : Spécifie si le lien est affiché ou pas dès le début du jeu. Indiquez la valeur true ou la valeur false.
 
 L'ordre des deux premières informations n'a pas d'importance. Si on inverse id\_elem\_1 et id\_elem\_2, cela ne change rien dans le jeu.
 
 Pour les liens déjà actifs (true), il est possible d'indiquer n'importe quels éléments (par exemple deux éléments PERSON, ou deux éléments ITEM). Le lien sera, dans tous les cas, affiché dès le début du jeu.
 
-Le joueur ne peut créer des liens que entre une PERSON et un ITEM. Pour les liens non actif (false), il est conseillé de prendre une PERSON et un ITEM. Sinon, le joueur ne pourra pas trouver ce lien, et ne pourra donc pas finir le jeu.
+Le joueur ne peut créer des liens que entre une PERSON et un ITEM. Il est donc conseillé que tous les liens non actif (false) soit entre une PERSON et un ITEM. Sinon, le joueur ne pourra pas les trouver, et ne pourra pas finir le jeu.
 
-Le nombre de liens à trouver s'affiche en bas à gauche de la page web. Il est calculé automatiquement en fonction des liens définis et se met à jour automatiquement lorsque le joueur trouve un lien. Les liens déjà actifs ne sont pas pris en compte dans le nombre de liens à trouver.
+Le nombre de liens à trouver s'affiche en bas à droite de la page web. Il est calculé automatiquement en fonction des liens définis et se met à jour automatiquement lorsque le joueur en trouve un. Les liens actifs dès le début ne sont pas pris en compte dans le nombre de liens à trouver.
 
 Il n'y a aucune vérification ni aucun message si la définition des liens est mal faite. Les cas d'erreur suivants ne sont pas détectés :
- - id\_elem\_1 ou id\_elem\_2 n'est pas un identifiant correcte d'élément du jeu,
+ - id\_elem\_1 ou id\_elem\_2 n'est pas un identifiant d'élément du jeu,
  - deux éléments ont le même identifiant interne,
- - deux liens ont le même couple d'identifiant interne,
- - un lien non actif entre deux éléments de même type.
+ - deux liens ont le même couple d'identifiants internes,
+ - il y a un lien non actif entre deux éléments de même type.
 
-C'est à vous de faire attention à votre customisation !!
+C'est à vous de faire attention à votre customisation !
 
 
 ## Définition des informations détaillées de chaque élément
 
-Cette définition est facultative.
+C'est facultatif. Il est possible de définir des informations détaillées pour aucun, une partie, ou tous les éléments du jeu.
 
-Il est possible de définir des informations détaillées pour aucun, une partie, ou tous les éléments du jeu.
-
-Les informations détaillées d'un élément apparaissent dans la partie droite de la page, lorsque l'élément est sélectioné. Elles s'affichent juste en dessous du nom et de l'image de l'élément.
+Les informations détaillées d'un élément apparaissent dans la partie droite de la page, lorsque l'élément est sélectionné. Elles s'affichent juste en dessous du nom et de l'image de l'élément.
 
 ### Définition des infos détaillées des PERSON
 
-Chercher le texte `<img class="person-img detail-img" src="">` (ligne numéro 20).
+Chercher (ligne numéro 20) le texte `<img class="person-img detail-img" src="">`.
 
 Après cette ligne, chaque bloc `div` ayant la classe `person-details` correspond aux informations détaillées d'un élément.
 
@@ -84,14 +82,16 @@ Pour ajouter les infos détaillées d'un élément, insérer un bloc de texte de
         Les informations détaillées de l'élément
     </div>
 
-Il faut spécifier les informations suivantes :
+en spécifiant les informations suivantes :
 
- - **id\_elem\_person** : identifiant interne de l'élément de type PERSON possédant ces informations détaillées.
- - **Les informations détaillées de l'élément** : informations détaillées de l'élément. On peut indiquer du texte simple ou du code HTML plus structuré. Attention de ne pas mettre trop de choses, au risque de modifier la mise en page globale.
+ - **id\_elem\_person** : identifiant interne de l'élément de type PERSON possédant ces informations détaillées. Attention, il y a un guillemet après cet identifiant, mais pas avant. (Le guillement ouvrant est situé avant).
+ - **Les informations détaillées de l'élément** : infos détaillées. On peut indiquer du texte simple ou du code HTML (images, paragraphes, ...). Attention de ne pas mettre trop de choses, au risque de modifier la mise en page globale.
 
 ### Définition des infos détaillées des ITEM
 
-Même principe que pour les PERSON, sauf qu'au départ, il faut chercher le texte `<img class="itm-img detail-img" src="">` (ligne numéro 70). Et chaque bloc d'informations détaillées possède la classe `itm-details`.
+Même principe que pour les PERSON, sauf qu'au départ, il faut chercher (ligne numéro 70) le texte `<img class="itm-img detail-img" src="">`.
+
+Chaque bloc d'informations détaillées possède la classe `itm-details` et non pas `person-details`.
 
 Il faut insérer un bloc de texte de ce type :
 
@@ -101,5 +101,5 @@ Il faut insérer un bloc de texte de ce type :
 
 L'information `id_elem_item` correspond à l'identifiant interne de l'élément de type ITEM dont on veut ajouter des informations détaillées.
 
-Pour que le code HTML soit plus clair, il est conseillé de supprimer toutes les informations détaillées du jeu initial, pour les éléments PERSON et ITEM. Il s'agit de tous les blocs div ayant la classe `person-details` et tous les blocs div ayant la classe `itm-details`.
+Pour que le code HTML soit plus clair, il est conseillé de supprimer toutes les informations détaillées (PERSON et ITEM) du jeu initial. Il s'agit de tous les blocs div ayant la classe `person-details` et de tous les blocs div ayant la classe `itm-details`.
 
